@@ -29,11 +29,26 @@ const io=new Server(server, {
 io.on('connection',(socket)=>{
     console.log("User connected: ",socket.id);
 
-    socket.on("join-channel",(channelId)=>{
+    socket.on("join-channel",(channelId,userId)=>{
         socket.join(channelId);
-        console.log(`User joined channel ${channelId}`);
+        console.log(`User joined channel ${userId}`);
         io.to(channelId).emit('user-joined',{userId:socket.id,channelId});
     });
+
+    socket.on('offer',({channelId,offer,senderId})=>{
+        console.log(`Offer received in channel ${channelId}`);
+        socket.to(channelId).emit('offer',{offer,senderId});
+    });
+
+    socket.on('answer',({channelId,answer,senderId})=>{
+        console.log(`Answer received in channel ${channelId}`);
+        socket.to(channelId).emit('answer',{answer,senderId});
+    });
+
+    socket.on('candidate', ({channelId, candidate, senderId})=>{
+        console.log(`ICE candidate received in channel ${channelId}`);
+        socket.to(channelId).emit('candidate',{candidate, senderId});
+    })
 
     socket.on('disconnect',()=>{
         console.log("User Disconnected",socket.io);
