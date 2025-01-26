@@ -88,8 +88,7 @@ router.post("/signin",async(req,res)=>{
         userId:user._id,
         accessToken,
         refreshToken
-    })
-
+    });
 });
 
 router.post("/token", async(req, res) => {
