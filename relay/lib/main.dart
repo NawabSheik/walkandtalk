@@ -33,7 +33,6 @@ class _MyAppState extends State<MyApp> {
     try {
       debugPrint('Fetching token and channel information...');
       final data = await fetchTokenAndChannel(channelId, userId);
-
       final String token = data['token'];
       final String channelName = data['channelName'];
       debugPrint('Token: $token');
